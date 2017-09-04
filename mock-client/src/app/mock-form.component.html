@@ -1,0 +1,49 @@
+<div class="container">
+	<h1>Welcome to Mock-Server!</h1>
+	<form [formGroup]="mockForm" novalidate (ngSubmit)="onSubmit(mockForm.value)" >
+		
+		<div class="form-group">
+			<label class="center-block">Status Code:
+		      <select formControlname="statusCode">
+<!-- 					<option *ngFor="let code of codes" [ngValue]="code">{{code}}</option> -->
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
+		    </label>
+		    
+		    <label class="center-block">Content Type:
+		      <input class="form-control" formControlName="contentType">
+		    </label>
+		    
+		    <label class="center-block">Encoding:
+		      <input class="form-control" formControlName="encoding">
+		    </label>
+		    
+		    <label class="form-inline">Headers:</label>
+			<div formArrayName="headers">
+				<div class="form-inline form-group" *ngFor="let header of headers.controls; let i = index" [formGroupName]="i">
+					<input type="text" class="form-control" formControlName="name" placeholder="Header Name"> :
+					<input type="text" class="form-control" formControlName="value" placeholder="Header Value">
+				</div>
+				<button type="button" (click)="addHeader()" class="btn btn-primary">Add</button>
+				<button type="button" (click)="delHeader(i)" class="btn btn-primary">Delete</button>
+			</div>
+			
+			<label class="center-block">Body:
+		      	<textarea formControlName="body" rows="5" class="form-control" ></textarea>
+		    </label>
+		</div>
+		
+		<button type="submit" class="btn btn-success" >Submit</button>
+		
+		<div *ngIf="submitted">
+		  <h2>Your mock link is ready!</h2>
+		  <div class="row">
+		  	<a class="col-xs-3" href="{{response}}" target="_blank">{{response}}</a>
+		  </div>
+<!-- 		  <br> -->
+<!-- 		  <button class="btn btn-primary" (click)="submitted=false">New</button> -->
+		</div>
+	</form>
+	<p>Form value: {{ mockForm.value | json }}</p>
+</div>
